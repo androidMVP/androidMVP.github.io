@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="猥琐发育，别浪"><meta name="keywords" content="android"><title>选择排序与插入排序 | MVP</title><link rel="stylesheet" type="text/css" href="//fonts.neworld.org/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">选择排序与插入排序</h1><a id="logo" href="/.">MVP</a><p class="description">猥琐发育，别浪</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 主页</i></a><a href="/archives/"><i class="fa fa-archive"> 文章</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Arama"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">选择排序与插入排序</h1><div class="post-meta"><a href="/2018/05/06/排序算法与插入排序/#comments" class="comment-count"></a><p><span class="date">May 06, 2018</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>Schlägt</i></i></span></p></div><div class="post-content"><p>在学习算法中，我们首先学的一般是排序算法，所谓排序就是将一组对象按照某种逻辑顺序重新排列等过程。排序算法中比较经典有：选择排序，插入排序，冒泡排序，哈希排序，快速排序，归并排序等。在这么多排序算法中，选择排序跟插入排序是最基础跟最简单的两种算法。</p>
+<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>选择排序算法就是，首先找到数组中最大／小的元素，其次，将它和数组中第一个元素交换位置（如果第一个元素就是最小元素那么它和自己交换）。再次，在剩下的元素中找到最小的元素，将它与数组中的第二个元素交换位置。如，如次重复，直到将整个数组排序。这种方法就叫做选择排序。</p>
+<h3 id="代码演示"><a href="#代码演示" class="headerlink" title="代码演示"></a>代码演示</h3><pre><code>/**
+ * 选择排序
+ */
+
+private static  void selectionSort(int[] arrays) {
+
+
+    int length = arrays.length;
+    int temp;
+
+    for (int j = 0; j &lt; length; j++) {
+        int mindex = j;
+        for (int i = j+1; i &lt; length; i++) {
+            if (arrays[mindex] &gt; arrays[i]) {
+                mindex = i;
+            }
+        }
+        temp = arrays[mindex];
+        arrays[mindex] = arrays[j];
+        arrays[j] = temp;
+    }
+
+
+}
+</code></pre><h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ol>
+<li><p>运行时间跟输入无关</p>
+<p> 这里说的输入无关不是说跟它输入的数据大小无光，而是说跟它输入的数据的特点无关。因为输入的数据无论是否有序或者全部一样它所运行的时间跟无序是一样长的。</p>
+</li>
+<li><p>数据移动是最少的。</p>
+<p> 每次交换都会改变两个数组的值，因此选择排序用了N次交换，交互次数跟数组的大小是线性关系。相对其他算法的都是线性对数关系或者平方级别关系。</p>
+</li>
+</ol>
+<h2 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h2><p>插入排序算法就是，从第一个元素开始，然后取出下一个新元素，然后将这个取出来的新元素从左边的序列中，从右往左依次扫描，如果该元素（已排序）大于／小于新元素，将该元素移到下一位置，直到找到已排序的元素小于或者等于新元素的位置，将新元素插入到该位置后。</p>
+<h3 id="代码演示："><a href="#代码演示：" class="headerlink" title="代码演示："></a>代码演示：</h3><pre><code>/**
+ * 插入排序
+ */
+public static void  insertSort(int[] arrays){
+
+    for (int i = 1; i &lt; arrays.length; i++) {
+        for (int j = i; j &gt;0; j--) {
+            if(arrays[j-1]&gt;arrays[j]){
+                swap(arrays,j-1,j);
+
+            }else {
+                break;
+            }
+        }
+    }
+}
+
+public static void swap(int[] arrays,int i,int j){
+   int  temp = arrays[i];
+    arrays[i] = arrays[j];
+    arrays[j] = temp;
+}
+</code></pre><h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><p>插入排序对部分有序的数组十分高效，也很适合小规模大数组</p>
+</div><div class="tags"></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/2018/05/06/Android Studio 进阶（二） ：结构化搜索跟替换/" class="next">Android Studio 进阶（二） ：结构化搜索跟替换</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">Inhalte</i></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#选择排序"><span class="toc-text">选择排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码演示"><span class="toc-text">代码演示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插入排序"><span class="toc-text">插入排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#代码演示："><span class="toc-text">代码演示：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点-1"><span class="toc-text">特点</span></a></li></ol></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/排序算法与插入排序/">选择排序与插入排序</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/Android Studio 进阶（二） ：结构化搜索跟替换/">Android Studio 进阶（二） ：结构化搜索跟替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/21/hello-world/">Android Studio 进阶（一） ：快捷键</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> Archiv</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Baidu Site Haritası</a> |  <a href="/atom.xml">RSS</a> |  <a href="/about/">Über</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p><p><span> Copyright &copy;<a href="/." rel="nofollow">MVP.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||head).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></body></html>
