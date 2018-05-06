@@ -1,0 +1,73 @@
+<!DOCTYPE html><html lang="null"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="猥琐发育，别浪"><meta name="keywords" content="android"><title>Android Studio 进阶（二） ：结构化搜索跟替换 | MVP</title><link rel="stylesheet" type="text/css" href="//fonts.neworld.org/css?family=Source+Code+Pro"><link rel="stylesheet" type="text/css" href="/css/style.css?v=2.0.1"><link rel="stylesheet" type="text/css" href="/css/highlight.css?v=2.0.1"><link rel="Shortcut Icon" href="/favicon.ico"><link rel="bookmark" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Android Studio 进阶（二） ：结构化搜索跟替换</h1><a id="logo" href="/.">MVP</a><p class="description">猥琐发育，别浪</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> 主页</i></a><a href="/archives/"><i class="fa fa-archive"> 文章</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div><div id="search-form"><div id="result-mask" class="hide"></div><label><input id="search-key" type="text" autocomplete="off" placeholder="Arama"></label><div id="result-wrap" class="hide"><div id="search-result"></div></div><div class="hide"><template id="search-tpl"><div class="item"><a href="/{path}" title="{title}"><div class="title">{title}</div><div class="time">{date}</div><div class="tags">{tags}</div></a></div></template></div></div></div><div id="layout" class="layout-g"><div class="layout-l"><div class="content_container"><div class="post"><h1 class="post-title">Android Studio 进阶（二） ：结构化搜索跟替换</h1><div class="post-meta"><a href="/2018/05/06/Android Studio 进阶（二） ：结构化搜索跟替换/#comments" class="comment-count"></a><p><span class="date">May 06, 2018</span><span><i id="busuanzi_container_page_pv"><i id="busuanzi_value_page_pv"></i><i>Schlägt</i></i></span></p></div><div class="post-content"><p>在 Android 开发中搜索跟替换是非常高频的操作，我们使用 Ctrl（+Shift）+F  跟Ctrl（+Shift）+R，这些快捷键已经被我们用到烂了吧。这种比较大的缺点就是只能搜索/替换固定的关键字，当我们想要搜索/替换某个【模板代码】的时候，就起不了作用了。</p>
+<p>举个列子：</p>
+<p>比如我们在对代码的异常进行捕获的时候，为了贪图方便，我们只是简单的打印。</p>
+<pre><code>@Override
+public void onBindViewHolder(final ViewHolder holder, final int position) {
+    try {
+        mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
+        holder.mImageView.setImageResource(citys[position % 4]);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+</code></pre><p>这时候项目经理要求我们捕获的异常的时候，将异常日志进行收集然后上传到后台。这时候，我们只要把相应的代码添加进去就可以，这个当然简单。</p>
+<pre><code>@Override
+public void onBindViewHolder(final ViewHolder holder, final int position) {
+    try {
+        mCardAdapterHelper.onBindViewHolder(holder.itemView, position, getItemCount());
+        holder.mImageView.setImageResource(citys[position % 4]);
+    } catch (Exception e) {
+        AppLogManager.getLogManager().write(e.printStackTrace());
+        e.printStackTrace();
+    }
+}
+</code></pre><p>但是，如果这样的代码充斥着整个项目，你只是用 Ctrl（+Shift）+F  跟Ctrl（+Shift）+R 定位到相对应的代码然后一个一个整改，耗时时间跟精力就太长了。</p>
+<p>这样的情况你就可以使用<strong>结构化搜索跟替换</strong>了。</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>Edit -&gt; Find -&gt; Search/Replace Structurally</p>
+<p><img src="http://img.blog.csdn.net/20180404170958815?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjcxNTQ1MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>然后你会看到这么一个界面：</p>
+<p><img src="http://img.blog.csdn.net/20180404171447592?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjcxNTQ1MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<ul>
+<li>① 保存模板：将你自定义的模板进行保存，下次使用的时候可以直接导入</li>
+<li>② 编辑模板中的变量</li>
+<li>③ 查看历史记录</li>
+<li>④ 从已有模板中导入</li>
+<li>⑤：编辑搜索模板</li>
+<li>⑥：编辑替换模板</li>
+</ul>
+<p>我们可以在 ⑤ 跟 ⑥ 里面直接进行编辑模板，也可以从 ④ 里面导入已有的模板。如果是自定义编辑的模板，可以使用 ① 进行保存,如果对变量还有要求的，可以在②里面里面编辑条件。</p>
+<p>##导入模板</p>
+<p>通过操作 ④ 即可导入已有的模板代码：</p>
+<p><img src="http://img.blog.csdn.net/20180404171722697?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjcxNTQ1MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>导入完成之后，点击 find 即可搜索到相对应的代码</p>
+<p><img src="http://img.blog.csdn.net/20180404171837691?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjcxNTQ1MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>选择 replace All/replace select 即可替换。</p>
+<h2 id="自定义编辑模板"><a href="#自定义编辑模板" class="headerlink" title="自定义编辑模板"></a>自定义编辑模板</h2><p>自定义我们需要用$ $ 来替换需要模糊搜索的代码，不需要模糊搜索的，直接用源码即可。$ $ 里面包裹的变量可以表示任何代码形式，包括返回值，代码块，表达式，变量等等。</p>
+<p>比如：</p>
+<pre><code>switch($Condition$) {
+  $Statement$;
+}
+</code></pre><p>这个就搜索所有的switch…case代码。</p>
+<p><strong>但是需要注意一点：定义的变量需要表示代码块或者多行代码情况下，需要通过 ② 修改成元素最少出现1次，并且最大是无上限。至于 ② 里面的操作下面会讲解。</strong></p>
+<h2 id="编辑变量"><a href="#编辑变量" class="headerlink" title="编辑变量"></a>编辑变量</h2><p>让我们看下②里面的操作</p>
+<p>在左边区域，显示刚才我们在面板 ⑤ 里面定义的代码变量。我们可以通过右边可以进行这些变量进行约束。</p>
+<p><img src="http://img.blog.csdn.net/20180404171910403?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvc2luYXRfMjcxNTQ1MDc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="这里写图片描述"></p>
+<p>Text constraints：</p>
+<ul>
+<li>Text/regular 在这输入框里面你可以输入正则表达式对该变量进行约束。</li>
+<li>Invert condition：对正则进行反转</li>
+<li>Apply constraint within type hierarchy ：会对层级结构也会进行搜索。</li>
+<li>Whole words only：会对全部的文本进行搜索，包括注释。</li>
+</ul>
+<p>Occurrences count：</p>
+<ul>
+<li>Minimum count：Minimum count：元素的最小数量</li>
+<li>Maximum count：元素的最大数量</li>
+<li>Unlimited：元素数量无限制</li>
+</ul>
+<p>这个最大小值，表示就是模糊搜索命中的时候，这个变量表示多少元素的数量。</p>
+<p>如果变量表示的是多行代码，最小值需要配置1个，最大值配置成无限。如果你没把握，那么就配置成无限制吧。</p>
+<p>后面几个配置用得不是很多，所以就不讲了。（好吧，其实我也不大懂。）</p>
+<p>好了，关于结构化结构化搜索跟替换就见到这里了。</p>
+</div><div class="tags"></div><div class="post-share"><div class="bdsharebuttonbox"><span style="float:left;line-height: 28px;height: 28px;font-size:16px;font-weight:blod">分享到：</span><a href="#" data-cmd="more" class="bds_more"></a><a href="#" data-cmd="mshare" title="分享到一键分享" class="bds_mshare"></a><a href="#" data-cmd="fbook" title="分享到Facebook" class="bds_fbook"></a><a href="#" data-cmd="twi" title="分享到Twitter" class="bds_twi"></a><a href="#" data-cmd="linkedin" title="分享到linkedin" class="bds_linkedin"></a><a href="#" data-cmd="youdao" title="分享到有道云笔记" class="bds_youdao"></a><a href="#" data-cmd="evernotecn" title="分享到印象笔记" class="bds_evernotecn"></a><a href="#" data-cmd="weixin" title="分享到微信" class="bds_weixin"></a><a href="#" data-cmd="qzone" title="分享到QQ空间" class="bds_qzone"></a><a href="#" data-cmd="tsina" title="分享到新浪微博" class="bds_tsina"></a></div></div><div class="post-nav"><a href="/2018/04/21/hello-world/" class="next">Android Studio 进阶（一） ：快捷键</a></div><div id="comments"></div></div></div></div><div class="layout-r"><div id="sidebar"><div class="search-pla"></div><div id="toc" class="widget"><div class="widget-title"><i class="fa fa-fei">Inhalte</i></div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#使用"><span class="toc-text">使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义编辑模板"><span class="toc-text">自定义编辑模板</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#编辑变量"><span class="toc-text">编辑变量</span></a></li></ol></div><div class="widget"><div class="widget-title"><i class="fa fa-xie"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2018/05/06/Android Studio 进阶（二） ：结构化搜索跟替换/">Android Studio 进阶（二） ：结构化搜索跟替换</a></li><li class="post-list-item"><a class="post-list-link" href="/2018/04/21/hello-world/">Android Studio 进阶（一） ：快捷键</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-biao"> Tags</i></div><div class="tagcloud"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-archive"> Archiv</i></div><ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a></li></ul></div></div></div></div><a id="totop" href="#top"></a><div id="footer"><div class="footer-info"><p><a href="/baidusitemap.xml">Baidu Site Haritası</a> |  <a href="/atom.xml">RSS</a> |  <a href="/about/">Über</a></p><p>本站总访问量：<i id="busuanzi_container_site_pv"><i id="busuanzi_value_site_pv"></i></i>次</p><p><span> Copyright &copy;<a href="/." rel="nofollow">MVP.</a></span><span> Theme by<a rel="nofollow" target="_blank" href="https://github.com/chaooo/hexo-theme-BlueLake"> BlueLake.</a></span><span> Count by<a href="http://busuanzi.ibruce.info/"> busuanzi.</a></span><span> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a></span></p></div></div></div><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><script type="text/javascript" src="/js/search.json.js?v=2.0.1"></script><script type="text/javascript" src="/js/toctotop.js?v=2.0.1" async></script><script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"2","bdMiniList":["mshare","weixin","tsina","qzone","linkedin","fbook","twi","print","renren","sqq","evernotecn","bdysc","tqq","tqf","bdxc","kaixin001","tieba","douban","bdhome","thx","ibaidu","meilishuo","mogujie","diandian","huaban","duitang","hx","fx","youdao","sdo","qingbiji","people","xinhua","mail","isohu","yaolan","wealink","ty","iguba","h163","copy"],"bdPic":"","bdStyle":"1","bdSize":"16"},"share":{},"image":{"viewList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"],"viewText":"分享到：","viewSize":"16"},"selectShare":{"bdContainerClass":null,"bdSelectMiniList":["tsina","qzone","weixin","fbook","twi","linkedin","youdao","evernotecn","mshare"]}};with(document)0[(getElementsByTagName('head')[0]||head).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion='+~(-new Date()/36e5)];
+</script></body></html>
